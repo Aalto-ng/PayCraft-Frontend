@@ -1,26 +1,21 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { AuthProvider } from "./context/AuthProvider.tsx";
-
+import { Toaster } from "react-hot-toast";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App.tsx";
+import { AuthProvider } from "./context/AuthProvider.tsx";
 import "./index.css";
-import { Toaster } from "./components/ui/toaster.tsx";
-
-const queryClient = new QueryClient();
+import ReactQueryClientProvider from "./providers/ReactQueryProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-          <Toaster />
-        </AuthProvider>
-      </Router>
-    </QueryClientProvider>
-  </StrictMode>
+	<StrictMode>
+		<ReactQueryClientProvider>
+			<AuthProvider>
+				<Router>
+					<App />
+				</Router>
+				<Toaster />
+			</AuthProvider>
+		</ReactQueryClientProvider>
+	</StrictMode>
 );
