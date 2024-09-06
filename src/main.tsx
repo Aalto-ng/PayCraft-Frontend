@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/AuthProvider.tsx";
 
@@ -12,13 +12,15 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <App />
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <AuthProvider>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
           <Toaster />
-        </Router>
-      </QueryClientProvider>
-    </AuthProvider>
+        </AuthProvider>
+      </Router>
+    </QueryClientProvider>
   </StrictMode>
 );

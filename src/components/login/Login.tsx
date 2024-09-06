@@ -1,37 +1,42 @@
-import { useState, useContext } from "react";
-import AuthContext from "@/context/AuthProvider";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import LoginForm from "./LoginForm";
 
 import axios from "@/api/axios";
 import { AxiosError } from "axios";
 import { useToast } from "@/hooks/use-toast";
+import useAuth from "@/hooks/useAuth";
 const LOGIN_URL = "/auth/login";
 
 function Login() {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/dashboard";
+
   const { toast } = useToast();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleSumbit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(email, password);
     try {
       const response = await axios.post(
         LOGIN_URL,
-        JSON.stringify({ email, password }),
+        JSON.stringify({ emailAddress: email, password }),
         {
           headers: {
             "Content-Type": "application/json",
           },
-          // withCredentials: true,
+          withCredentials: true,
         }
       );
-      const {
-        data: { accessToken },
-      } = response;
-      console.log(accessToken);
-      setAuth({ email, password, accessToken });
+      console.log(response);
+      // setAuth({ user, accessToken });
+      // setEmail("");
+      // setPassword("");
+      navigate(from, { replace: true });
     } catch (error: AxiosError | any) {
       if (!error.response) {
         return toast({
@@ -53,13 +58,11 @@ function Login() {
         });
       }
     }
-    setEmail("");
-    setPassword("");
   };
 
   return (
     <section className="flex justify-center items-center h-screen">
-      <form onSubmit={handleSumbit}>
+      <form onSubmit={handleSubmit}>
         <LoginForm
           setPassword={setPassword}
           setEmail={setEmail}
