@@ -1,7 +1,7 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth";
-import { useLocation } from "react-router-dom";
+import LoginPage from "./pages/Login";
+import SignUpPage from "./pages/SignUp";
 
 // Desc: Main App component for the application.
 function App() {
@@ -20,9 +20,14 @@ function App() {
 						/>
 					}
 				/>
+
 				<Route
 					path="login"
-					element={<Login />}
+					element={<LoginPage />}
+				/>
+				<Route
+					path="signup"
+					element={<SignUpPage />}
 				/>
 
 				{/* we want to protect */}

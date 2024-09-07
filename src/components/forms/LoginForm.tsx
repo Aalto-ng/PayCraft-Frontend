@@ -1,3 +1,4 @@
+import { passwordRegex } from "@/constants/regex";
 import { useLoginUser } from "@/hooks/useLoginUser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -7,11 +8,8 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-const passwordRegex = new RegExp(
-	/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/
-);
 const schema = z.object({
-	emailAddress: z.string().email({ message: "Invalid Email" }),
+	emailAddress: z.string().email(),
 	password: z
 		.string()
 		.min(8, { message: "Minimum of 8 characters" })
@@ -50,12 +48,17 @@ const LoginForm = () => {
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div>
-				<Label htmlFor="email">Email</Label>
+				<Label
+					className="text-sm"
+					htmlFor="emailAddress"
+				>
+					Email
+				</Label>
 				<Input
 					{...register("emailAddress")}
 					id="emailAddress"
 					type="email"
-					placeholder="m@example.com"
+					placeholder="user@example.com"
 					className="my-1"
 					required
 				/>
@@ -66,7 +69,12 @@ const LoginForm = () => {
 				) : null}
 			</div>
 			<div>
-				<Label htmlFor="password">Password</Label>
+				<Label
+					className="text-sm"
+					htmlFor="password"
+				>
+					Password
+				</Label>
 				<Input
 					{...register("password")}
 					id="password"
@@ -85,7 +93,7 @@ const LoginForm = () => {
 				disabled={isDirty && !isValid}
 				className="w-full"
 			>
-				{isPending ? <LoaderCircle className="animate-spin" /> : "Sign in"}
+				{isPending ? <LoaderCircle className="animate-spin" /> : "Login"}
 			</Button>
 		</form>
 	);
