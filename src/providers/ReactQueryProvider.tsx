@@ -1,4 +1,5 @@
 "use client";
+import { useToast } from "@/hooks/useToast";
 import {
 	MutationCache,
 	QueryClient,
@@ -7,7 +8,6 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AxiosError } from "axios";
 import { useState } from "react";
-import toast from "react-hot-toast";
 
 declare module "@tanstack/react-query" {
 	interface Register {
@@ -20,6 +20,8 @@ export default function ReactQueryClientProvider({
 }: {
 	children: React.ReactNode;
 }) {
+	const { toast } = useToast();
+
 	const [client] = useState(
 		new QueryClient({
 			defaultOptions: {
@@ -31,11 +33,20 @@ export default function ReactQueryClientProvider({
 			mutationCache: new MutationCache({
 				onError: (error) => {
 					if (!error.response) {
-						toast.error("Network Error");
+						toast({
+							variant: "destructive",
+							title: "Network Error",
+						});
 					} else if (error.response.status === 400) {
-						toast.error("Invalid Credentials");
+						toast({
+							variant: "destructive",
+							title: "Invalid Credentials",
+						});
 					} else if (error.response.status === 401) {
-						toast.error("Unauthorized");
+						toast({
+							variant: "destructive",
+							title: "Unauthorized",
+						});
 					}
 				},
 			}),

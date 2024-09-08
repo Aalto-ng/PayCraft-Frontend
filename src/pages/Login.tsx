@@ -12,7 +12,7 @@ import {
 function LoginPage() {
 	return (
 		<section className="flex justify-center items-center h-screen">
-			<Card className="w-full max-w-lg">
+			<Card className="w-full max-w-lg shadow-none border-none lg:shadow lg:border">
 				<CardHeader>
 					<CardTitle className="text-3xl">Login to your Account</CardTitle>
 					<CardDescription>Please enter your details</CardDescription>
