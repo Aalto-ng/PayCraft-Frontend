@@ -1,16 +1,18 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "react-query";
-
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App.tsx";
+import { Toaster } from "./components/ui/toaster.tsx";
 import "./index.css";
-
-const queryClient = new QueryClient();
+import ReactQueryClientProvider from "./providers/ReactQueryProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <QueryClientProvider client={queryClient}>
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </QueryClientProvider>
+	<StrictMode>
+		<Router>
+			<ReactQueryClientProvider>
+				<App />
+			</ReactQueryClientProvider>
+			<Toaster />
+		</Router>
+	</StrictMode>
 );
