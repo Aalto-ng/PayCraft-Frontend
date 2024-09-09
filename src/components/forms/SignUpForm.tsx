@@ -119,7 +119,7 @@ const SignUpForm = ({ currentPage, setPage }: Props) => {
 								"email",
 								"user@example.com"
 							)}
-							{renderInput("phoneNumber", "Phone", "tel", "+234")}
+							{renderInput("phoneNumber", "Phone", "tel", "234")}
 						</div>
 						{renderInput(
 							"password",
